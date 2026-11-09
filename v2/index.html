@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#FFF9F5">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Great+Vibes&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="img/fame.webp">
+<link rel="preload" as="image" href="img/founders-duo.webp">
 <style>
 :root{
  --milk:#FFF9F5;--cream:#FAF1EA;--white:#FFFFFF;--blush:#F9E6E8;--blush2:#F3D2D8;--petal:#EBB8C4;
@@ -175,6 +175,44 @@ footer .script{display:block;font:400 34px/1.2 var(--script);color:var(--rose);l
  .callhero{grid-template-columns:1fr;padding:24px}
  .overlay{padding:0;align-items:flex-end}.sheet{border-radius:28px 28px 0 0;max-height:92vh;padding:28px 20px 22px}.sheet h2{font-size:32px}
 }
+
+/* founders duo in hero arch */
+.heroart{width:min(100%,420px)}
+.archimg.duo{aspect-ratio:1/1.08;position:relative;background:radial-gradient(120% 80% at 50% 0%,#FFFFFF 0,#F9E3E8 45%,#EFC2CE 100%)}
+.archimg.duo img{position:absolute;left:-22%;bottom:0;width:144%;height:auto;max-width:none;object-fit:initial;-webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 28%);mask-image:linear-gradient(to bottom,transparent 0%,#000 28%)}
+/* gems */
+.gem{position:absolute;z-index:3;pointer-events:none;display:block;filter:drop-shadow(0 6px 10px #6B1D3833)}
+.gem img{width:100%;height:auto}
+.g-lg{width:78px}.g-md{width:54px}.g-sm{width:34px}.g-xs{width:22px}
+.gem.tw:after{content:"";position:absolute;left:50%;top:38%;width:70%;aspect-ratio:1;transform:translate(-50%,-50%) scale(.2);background:radial-gradient(circle,#fff 0 6%,transparent 7%),conic-gradient(from 0deg,transparent 0 22%,#ffffffcc 24% 26%,transparent 28% 47%,#ffffffcc 49% 51%,transparent 53% 72%,#ffffffcc 74% 76%,transparent 78% 97%,#ffffffcc 99% 100%);-webkit-mask:radial-gradient(circle,#000 0 30%,transparent 62%);mask:radial-gradient(circle,#000 0 30%,transparent 62%);opacity:0;animation:glint 4.2s ease-in-out infinite}
+.gem.tw img{animation:shine 4.2s ease-in-out infinite}
+.gem.d2:after,.gem.d2 img{animation-delay:1.1s}.gem.d3:after,.gem.d3 img{animation-delay:2.2s}.gem.d4:after,.gem.d4 img{animation-delay:3.1s}
+@keyframes glint{0%,70%,100%{opacity:0;transform:translate(-50%,-50%) scale(.2) rotate(0)}80%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(25deg)}90%{opacity:0;transform:translate(-50%,-50%) scale(.4) rotate(45deg)}}
+@keyframes shine{0%,70%,100%{filter:brightness(1)}80%{filter:brightness(1.18) saturate(1.1)}}
+@media (prefers-reduced-motion:reduce){.gem.tw:after,.gem.tw img{animation:none}}
+.band{z-index:2}
+.headimg{position:relative;overflow:visible}
+.headimg>img{border-radius:inherit}
+.headimg .gem{right:-14px;top:-10px}.headimg .gem img{height:auto;object-fit:initial}
+/* founders */
+.founders{position:relative;margin:64px 0 0;display:grid;grid-template-columns:300px 1fr;gap:34px;align-items:center;background:linear-gradient(135deg,#FFFFFF 0%,#FCEFF1 60%,#F7DEE4 100%);border:1px solid var(--line);border-radius:var(--r-xl);padding:40px 44px;box-shadow:var(--shadow)}
+.founders .script{font:400 34px/1.15 var(--script);color:var(--rose);margin:8px 0 0}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.founder{position:relative;text-align:center}
+.farch{border-radius:var(--arch);overflow:hidden;aspect-ratio:1/1.14;background:radial-gradient(120% 85% at 50% 0%,#FFFFFF 0,#F7DCE3 50%,#E9B3C2 100%);border:6px solid #fff;outline:1px solid var(--gold-soft);outline-offset:8px;box-shadow:var(--shadow-soft);position:relative}
+.farch img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center bottom}
+.founder:last-child .farch img{object-position:right 12%}
+.founder h3{font:600 28px/1.1 var(--serif);color:var(--wine);margin:22px 0 6px}
+.founder p{margin:0 auto;max-width:280px;font-size:13px;color:var(--text)}
+@media(max-width:1100px){.founders{grid-template-columns:1fr;padding:34px}}
+@media(max-width:900px){
+ .heroart{width:84%}.archimg.duo{aspect-ratio:1/1}.g-lg{width:58px}.g-md{width:42px}.g-sm{width:28px}
+ .bandgem,.nomob{display:none}
+ .founders{margin-top:44px;padding:28px 18px;text-align:center}
+ .fgrid{gap:14px}.founder h3{font-size:21px;margin-top:16px}.founder p{font-size:12px}
+ .farch{border-width:4px;outline-offset:5px}
+ .founders .script{font-size:30px}
+}
 </style>
 </head>
 <body>
@@ -208,13 +246,18 @@ footer .script{display:block;font:400 34px/1.2 var(--script);color:var(--rose);l
     <p class="lead">Контент-календарь, подкасты, игры, созвоны и готовые сообщения клуба — всё в одном месте.</p>
    </div>
    <div class="heroart">
-    <div class="archimg"><img src="img/fame.webp" alt="" fetchpriority="high"></div>
-    <div class="mini"><img src="img/money.webp" alt="" loading="lazy"></div>
+    <div class="archimg duo"><img src="img/founders-duo.webp" alt="Основатели клуба Евгения Ефремова и Виорика Бусуек" fetchpriority="high"></div>
+    <span class="gem g-lg tw" style="left:-30px;top:58px"><img src="img/gem-diamond.webp" alt=""></span>
+    <span class="gem g-md tw d2" style="right:-22px;bottom:40px"><img src="img/gem-pink.webp" alt=""></span>
+    <span class="gem g-sm tw d3" style="left:18px;bottom:-14px"><img src="img/gem-green.webp" alt=""></span>
+    <span class="gem g-xs tw d4" style="right:58px;top:-4px"><img src="img/gem-diamond.webp" alt=""></span>
     <div class="seal"><svg viewBox="0 0 120 120"><defs><path id="circ" d="M60 60m-46 0a46 46 0 1 1 92 0a46 46 0 1 1-92 0"/></defs><text fill="#F6D9E1" font-family="Montserrat,sans-serif" font-size="8.6" font-weight="600"><textPath href="#circ" textLength="286" lengthAdjust="spacing">PRIVATE CLUB · SEASON 01 · START BLOG · </textPath></text></svg><b>SB</b></div>
    </div>
   </header>
   <section class="band" aria-label="Цифры месяца">
    <svg viewBox="0 0 1440 28" preserveAspectRatio="none"><path d="M0 28V14C120 0 240 0 360 14s240 14 360 0 240-14 360 0 240 14 360 0V28z" fill="#6B1D38"/></svg>
+   <span class="gem g-md tw d3 bandgem" style="right:7%;top:-10px"><img src="img/gem-diamond.webp" alt=""></span>
+   <span class="gem g-sm tw bandgem" style="left:34%;bottom:-12px"><img src="img/gem-pink.webp" alt=""></span>
    <div class="inner">
     <div class="stat"><b>20</b><span>публикаций<br>в месяце</span></div>
     <div class="stat"><b>04</b><span>подкаста</span></div>
@@ -224,6 +267,15 @@ footer .script{display:block;font:400 34px/1.2 var(--script);color:var(--rose);l
    <svg viewBox="0 0 1440 28" preserveAspectRatio="none"><path d="M0 0V14c120 14 240 14 360 0S600 0 720 14s240 14 360 0 240-14 360 0V0z" fill="#6B1D38"/></svg>
   </section>
   <section id="app"></section>
+  <section class="founders" aria-label="Основатели клуба">
+   <span class="gem g-md tw d2" style="right:30px;top:-18px"><img src="img/gem-pink.webp" alt=""></span>
+   <span class="gem g-sm tw d4 nomob" style="left:-12px;bottom:40px"><img src="img/gem-diamond.webp" alt=""></span>
+   <div class="fhead"><div class="kicker">Founders</div><h2>Основатели клуба</h2><p class="script">ваши менторы</p></div>
+   <div class="fgrid">
+    <article class="founder"><div class="farch"><img src="img/founder-evgenia.webp" alt="Евгения Ефремова" loading="lazy"></div><span class="gem g-sm tw d3" style="right:14%;top:6px"><img src="img/gem-diamond.webp" alt=""></span><h3>Евгения Ефремова</h3><p>Закадровый продюсер Reels и SMM</p></article>
+    <article class="founder"><div class="farch"><img src="img/founder-viorika.webp" alt="Виорика Бусуек" loading="lazy"></div><span class="gem g-sm tw" style="left:14%;top:6px"><img src="img/gem-green.webp" alt=""></span><h3>Виорика Бусуек</h3><p>Опыт в сфере SMM, Reels и маркетинга более 5 лет с 30+ нишами</p></article>
+   </div>
+  </section>
   <footer><span class="script">с любовью</span>START BLOG 2.0 · Creator control room · Отметки сохраняются в этом браузере</footer>
  </main>
 </div>
@@ -243,7 +295,7 @@ function fallback(t){const a=document.createElement("textarea");a.value=t;a.styl
 function go(id){current=id;history.replaceState(null,"","#"+id);render();document.getElementById("app").scrollIntoView({behavior:"smooth",block:"start"})}
 function renderNav(){document.getElementById("nav").innerHTML=NAV.map(([id,ic,n])=>`<button class="${id===current?"active":""}" onclick="go('${id}')"><svg class="ic"><use href="#${ic}"/></svg>${n}</button>`).join("");document.getElementById("mnav").innerHTML=NAV.map(([id,ic,n])=>`<button class="${id===current?"active":""}" onclick="go('${id}')">${n}</button>`).join("")}
 function toggle(id){done=done.includes(id)?done.filter(x=>x!==id):[...done,id];save();render();if(document.getElementById("overlay").classList.contains("show")){const [w,d]=id.split("-").map(Number);showPost(w,d)}}
-function head(k,t,sc,s,img){return `<div class="sectionhead"><div><div class="kicker">${k}</div><h2>${t}${sc?`<span class="sc">${sc}</span>`:""}</h2><div class="muted">${s}</div></div>${img?`<div class="headimg"><img src="img/${img}.webp" alt="" loading="lazy"></div>`:""}</div>`}
+function head(k,t,sc,s,img){return `<div class="sectionhead"><div><div class="kicker">${k}</div><h2>${t}${sc?`<span class="sc">${sc}</span>`:""}</h2><div class="muted">${s}</div></div>${img?`<div class="headimg"><img src="img/${img}.webp" alt="" loading="lazy"><span class="gem g-sm tw d2"><img src="img/gem-pink.webp" alt=""></span></div>`:""}</div>`}
 function calendar(){
  const n=done.length,p=Math.round(n/20*100);
  let h=head("Editorial plan","Контент-календарь","","Первый месяц · 4 недели · будние дни","success");
