@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>START BLOG 2.0 — Control Room</title>
+<meta name="description" content="START BLOG 2.0 — панель администратора клуба: контент-календарь, подкасты, игры, созвоны и готовые сообщения.">
+<meta name="theme-color" content="#0e0b10">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e0b10;--panel:#1a1520;--panel2:#241c2a;--line:#ffffff14;--pink:#ff2e93;--pink2:#ff8cc6;--rose:#ffd1e8;--cream:#fbf1e6;--ink:#201820;--muted:#bba9bc;--white:#fff7fc;--serif:"Playfair Display",Georgia,"Times New Roman",serif;--sans:Manrope,Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:radial-gradient(900px 500px at 85% -10%,#5a1746aa,transparent 60%),radial-gradient(700px 400px at -10% 110%,#3b0f30aa,transparent 60%),var(--bg);background-attachment:fixed;color:var(--white);font:15px/1.55 var(--sans);min-height:100vh}
+button{font:inherit;cursor:pointer;color:inherit}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.side{position:sticky;top:0;height:100vh;padding:28px 20px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:22px;background:#0b080dcc;backdrop-filter:blur(8px)}
+.logo{font-family:var(--serif);font-weight:800;font-size:30px;line-height:.95;letter-spacing:-.5px}.logo em{color:var(--pink);font-style:italic}
+.logo small{display:block;font:800 10px/1.4 var(--sans);letter-spacing:2.5px;color:var(--pink2);margin-top:10px}
+.nav{display:flex;flex-direction:column;gap:6px}
+.nav button{display:flex;align-items:center;gap:12px;text-align:left;border:1px solid transparent;background:transparent;color:var(--muted);border-radius:14px;padding:11px 14px;font-weight:700;white-space:nowrap}
+.nav button:hover{background:var(--panel);color:var(--white)}
+.nav button.active{background:var(--pink);color:#fff;box-shadow:0 8px 24px #ff2e9355}
+.nav .ic{width:22px;text-align:center}
+.sidefoot{margin-top:auto;font-size:11px;letter-spacing:1.5px;color:#8e7b90}
+.main{padding:32px 40px 60px;max-width:1280px;width:100%}
+.hero{position:relative;overflow:hidden;border-radius:28px;padding:36px 40px;background:linear-gradient(120deg,#ff2e93 0%,#c2257f 45%,#4b1a45 100%);box-shadow:0 24px 70px #0008}
+.hero:after{content:"SB";position:absolute;right:20px;bottom:-80px;font:900 260px/1 var(--serif);color:#ffffff14;letter-spacing:-18px}
+.eyebrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:11px;letter-spacing:2.5px;font-weight:800}
+.badge{display:inline-block;border-radius:99px;padding:4px 10px;font-size:10px;letter-spacing:1.5px;font-weight:800;background:#ffffff26}
+.hero h1{font:800 clamp(44px,6.5vw,84px)/.92 var(--serif);margin:16px 0 12px;letter-spacing:-2px}
+.hero h1 i{font-weight:600}
+.hero .tag1{font:600 italic clamp(20px,2.4vw,28px)/1.2 var(--serif);margin:0 0 8px}
+.hero .tag2{font-size:12px;letter-spacing:3px;font-weight:800;color:#ffe1f0}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:20px 0 8px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px 20px}
+.stat b{display:block;font:800 34px/1 var(--serif);color:var(--pink2)}
+.stat span{color:var(--muted);font-size:13px}
+.sectionhead{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin:34px 0 18px;flex-wrap:wrap}
+.kicker{font-size:11px;letter-spacing:2.5px;font-weight:800;color:var(--pink2)}
+h2{font:800 clamp(28px,3.2vw,40px)/1.05 var(--serif);margin:6px 0 6px;letter-spacing:-.5px}
+.muted{color:var(--muted);font-size:14px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chips button{border:1px solid #ffffff22;background:var(--panel);color:var(--muted);border-radius:99px;padding:9px 16px;font-weight:700;font-size:13px}
+.chips button.active{background:var(--white);color:var(--ink);border-color:var(--white)}
+.progress{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:16px 20px;margin-bottom:18px}
+.progress .row{display:flex;justify-content:space-between;font-size:13px;color:var(--rose);font-weight:700}
+.bar{height:9px;border-radius:99px;background:#3a2a3c;margin-top:10px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--pink),var(--pink2));border-radius:99px;transition:width .3s}
+.week{margin-bottom:26px}
+.weekhead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 12px;flex-wrap:wrap}
+.weekhead h3{font:800 22px/1.1 var(--serif);margin:0}.weekhead .cnt{font-size:12px;color:var(--pink2);font-weight:800;letter-spacing:1px}
+.days{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.day{position:relative;background:var(--cream);color:var(--ink);border-radius:20px;padding:16px 16px 14px;display:flex;flex-direction:column;gap:8px;min-height:210px;border:2px solid transparent;transition:transform .15s,border-color .15s}
+.day:hover{transform:translateY(-2px);border-color:var(--pink)}
+.day.done{background:#e9dccf;opacity:.78}.day.done .dtitle{text-decoration:line-through;text-decoration-color:var(--pink)}
+.dtop{display:flex;justify-content:space-between;align-items:center}
+.dname{font:800 22px/1 var(--serif);color:var(--pink)}
+.dtype{font-size:10px;letter-spacing:1.4px;font-weight:800;color:#7a5a72;text-transform:uppercase}
+.dtitle{font-weight:800;font-size:15px;line-height:1.3;flex:1}
+.check{appearance:none;-webkit-appearance:none;width:26px;height:26px;border-radius:9px;border:2px solid #d3b6c6;background:#fff;cursor:pointer;display:grid;place-items:center;flex:none}
+.check:checked{background:var(--pink);border-color:var(--pink)}
+.check:checked:after{content:"✓";color:#fff;font-weight:900;font-size:15px}
+.open{align-self:flex-start;border:0;background:var(--ink);color:#fff;border-radius:11px;padding:8px 13px;font-size:12px;font-weight:800}
+.open:hover{background:var(--pink)}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:22px}
+.card h3{font:800 22px/1.2 var(--serif);margin:10px 0 8px}
+.card p{margin:8px 0;color:#eadbe6;font-size:14px}.card p b{color:var(--pink2)}
+.pill{display:inline-block;background:#4f1d43;color:#ffb5da;border-radius:99px;padding:4px 11px;font-size:11px;font-weight:800;letter-spacing:1px}
+.callhero{background:linear-gradient(115deg,#ff2e93,#7b1f63);border-radius:22px;padding:26px;margin-bottom:14px}
+.callhero b{display:block;font:800 44px/1 var(--serif)}
+.msgs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.msg{background:var(--cream);color:var(--ink);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:12px}
+.msg h4{margin:0;font:800 20px/1.2 var(--serif)}
+.msg .txt{white-space:pre-wrap;font-size:14px;flex:1}
+.copy{align-self:flex-start;border:0;background:var(--pink);color:#fff;border-radius:12px;padding:10px 16px;font-weight:800;font-size:13px}
+.copy.ok{background:#2f9e6a}
+.rhythm{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.rcard{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:20px}
+.rcard .kicker{margin-bottom:6px}.rcard h3{margin:0;font:800 20px/1.25 var(--serif)}
+.rcard.off{background:transparent;border-style:dashed}
+.note{margin-top:16px;background:var(--panel2);border-radius:20px;padding:20px 22px;color:#eadbe6;font-size:14px}
+.note h4{font:800 18px var(--serif);margin:12px 0 4px;color:var(--white)}.note h4:first-child{margin-top:0}
+.overlay{position:fixed;inset:0;background:#000a;backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:24px;z-index:50}
+.overlay.show{display:flex}
+.sheet{background:var(--cream);color:var(--ink);border-radius:26px;max-width:760px;width:100%;max-height:88vh;overflow:auto;padding:30px 32px;position:relative}
+.sheet h2{color:var(--ink);font-size:30px}
+.sheet .kicker{color:var(--pink)}
+.sheet .body{white-space:pre-wrap;font-size:15px;line-height:1.6;margin:16px 0 18px}
+.sheet .meta{background:#f3e3d3;border-radius:16px;padding:14px 16px;font-size:13px;margin-bottom:16px}.sheet .meta b{color:#a0216a}
+.sheet .actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;position:sticky;bottom:-30px;background:var(--cream);padding:12px 0 4px}
+.close{position:absolute;right:16px;top:14px;border:0;background:#0000000f;border-radius:50%;width:38px;height:38px;font-size:20px;line-height:1}
+.mark{border:2px solid var(--ink);background:transparent;border-radius:12px;padding:8px 14px;font-weight:800;font-size:13px}
+.mark.on{background:var(--ink);color:#fff}
+.mobilebar{display:none}
+footer{margin-top:40px;color:#8e7b90;font-size:11px;letter-spacing:1.5px}
+@media(max-width:1200px){.days{grid-template-columns:repeat(3,minmax(0,1fr))}.rhythm{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:900px){
+ .layout{display:block}.side{display:none}
+ .mobilebar{display:block;position:sticky;top:0;z-index:20;background:#0e0b10ee;backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:12px 14px 10px}
+ .mobilebar .logo{font-size:20px}.mobilebar .logo small{display:none}
+ .mnav{display:flex;gap:6px;overflow-x:auto;margin-top:10px;scrollbar-width:none;padding-bottom:2px}.mnav::-webkit-scrollbar{display:none}
+ .mnav button{flex:none;border:1px solid #ffffff22;background:var(--panel);color:var(--muted);border-radius:99px;padding:8px 13px;font-weight:700;font-size:13px}
+ .mnav button.active{background:var(--pink);color:#fff;border-color:var(--pink)}
+ .main{padding:16px 14px 50px}
+ .hero{padding:24px 22px;border-radius:24px}.hero:after{font-size:170px;bottom:-50px}
+ .stats{grid-template-columns:repeat(2,1fr);gap:10px}.stat{padding:14px 16px}.stat b{font-size:28px}
+ .days,.cards,.msgs,.rhythm{grid-template-columns:1fr}
+ .day{min-height:0}
+ .overlay{padding:0;align-items:flex-end}.sheet{border-radius:24px 24px 0 0;max-height:92vh;padding:24px 20px}
+ .sectionhead{margin:26px 0 14px}
+ .hero .tag2{letter-spacing:1.6px;font-size:11px}
+}
+</style>
+</head>
+<body>
+<div class="mobilebar"><div class="logo">START BLOG <em>2.0</em></div><nav class="mnav" id="mnav"></nav></div>
+<div class="layout">
+ <aside class="side">
+  <div class="logo">START<br>BLOG <em>2.0</em><small>CONTROL ROOM</small></div>
+  <nav class="nav" id="nav"></nav>
+  <div class="sidefoot">PRIVATE CREATOR COMMUNITY<br>SEASON 01</div>
+ </aside>
+ <main class="main">
+  <header class="hero">
+   <div class="eyebrow">PRIVATE CREATOR COMMUNITY <span class="badge">SEASON 01</span></div>
+   <h1>START BLOG <i>2.0</i></h1>
+   <p class="tag1">Твоя контентная территория.</p>
+   <div class="tag2">ПЛАНИРУЙ · СОЗДАВАЙ · ПУБЛИКУЙ · РАСТИ</div>
+  </header>
+  <section class="stats">
+   <div class="stat"><b>20</b><span>публикаций в месяце</span></div>
+   <div class="stat"><b>04</b><span>подкаста</span></div>
+   <div class="stat"><b>04</b><span>игры и интерактива</span></div>
+   <div class="stat"><b>19:00</b><span>пятничный созвон</span></div>
+  </section>
+  <section id="app"></section>
+  <footer>START BLOG 2.0 · CREATOR CONTROL ROOM · Отметки выполнения сохраняются в этом браузере на этом устройстве.</footer>
+ </main>
+</div>
+<div class="overlay" id="overlay" onclick="if(event.target===this)closePost()"><article class="sheet" id="sheet"></article></div>
+<script>
+const DATA={"weeks": [{"title": "НЕДЕЛЯ 01 · ФУНДАМЕНТ", "days": [{"d": "ПН", "type": "План недели", "title": "Старт недели — аудит блога за 15 минут", "text": "Добро пожаловать в новую неделю START BLOG! 💗\n\nСегодня начинаем с небольшого аудита блога. Прежде чем снимать новые Reels, важно понять, что уже работает, а что мешает росту.\n\nВыделите 15 минут и проверьте:\n\n1. Аватар — понятно ли, кто вы?\n2. Имя профиля — можно ли понять вашу сферу?\n3. Шапка — ясно ли, чем вы полезны?\n4. Закреплённые публикации — помогают ли они познакомиться с вами?\n5. Контент — есть ли у человека причина подписаться?\n6. Призыв к действию — понимает ли аудитория, что делать дальше?\n\nЗАДАНИЕ: найдите три слабых места своего профиля и выберите одно, которое исправите сегодня.\n\nНапишите в комментариях: что оказалось самым неожиданным?", "plan": "Чек-лист: шапка профиля, позиционирование, актуальное, контент и цель на месяц.", "comm": "Попросить участниц выбрать одну главную цель недели."}, {"d": "ВТ", "type": "Тренды и Reels", "title": "5 форматов Reels для любой ниши", "text": "5 форматов Reels, которые можно адаптировать практически под любую нишу 🎬\n\n1. Миф / правда. Развенчайте распространённое заблуждение в вашей сфере.\n2. Ошибка новичка. Покажите то, что часто делают неправильно.\n3. До / после. Продемонстрируйте результат своей работы или процесса.\n4. Три совета. Дайте короткую практическую пользу.\n5. Личная история. Расскажите о ситуации, которая изменила ваш подход.\n\nКак адаптировать? Не копируйте чужой ролик целиком. Возьмите механику и наполните её своим опытом.\n\nЗАДАНИЕ: выберите один формат и запишите идею Reels для своего блога. Не нужно ждать идеального света и настроения. Начните с идеи.", "plan": "Подборка форматов: говорящая голова, POV, до/после, мини-инструкция, личная история. Дать примеры адаптации.", "comm": "Предложить выбрать один формат и написать тему своего ролика."}, {"d": "СР", "type": "Польза + игра", "title": "Почему блог не растёт: экспресс-диагностика", "text": "Почему блог не растёт, даже если вы регулярно публикуете? 💭\n\nРегулярность — это не стратегия сама по себе. Можно выкладывать ролики каждый день, но не понимать, для кого они и зачем.\n\nПроверьте четыре момента:\n\n1. Понятно ли, для кого ваш блог?\n2. Есть ли в контенте темы, которые действительно волнуют аудиторию?\n3. Удерживает ли начало видео внимание?\n4. Есть ли причина перейти в профиль и подписаться?\n\nЧастая ошибка — делать контент только о себе и своих услугах, забывая о вопросах и потребностях зрителя.\n\nМИНИ-ЗАДАНИЕ: откройте три последних Reels. Для каждого ответьте: почему незнакомый человек должен досмотреть это видео?\n\nСегодня ещё и игра: «Угадай, что не так с блогом». Готовьтесь включать насмотренность!", "plan": "Разобрать 5 причин: размытая тема, слабая упаковка, нерегулярность, отсутствие удержания, нет понятного действия для зрителя.", "comm": "Игра «Угадай, что не так с блогом»: показать условный профиль и дать 3 варианта диагноза."}, {"d": "ЧТ", "type": "Нейронка и AI", "title": "Промпт: превращаем одну тему в неделю контента", "text": "НЕЙРОНКА ЧЕТВЕРГА 🤖\n\nСегодня используем ИИ как контент-ассистента.\n\nСкопируйте промпт:\n\n«Ты — опытный контент-стратег и специалист по продвижению личных брендов. Моя ниша: [укажите нишу]. Моя аудитория: [опишите аудиторию]. Моя цель: [охваты / подписчики / заявки / продажи].\n\nВозьми одну тему: [вставьте тему] и преврати её в контент на неделю:\n1. Три идеи Reels с сильными хуками.\n2. Один экспертный пост.\n3. Одну личную историю.\n4. Три идеи Stories.\n5. Один вовлекающий вопрос аудитории.\n\nНе используй общие фразы. Предлагай конкретные идеи с понятной пользой для моей аудитории».\n\nВАЖНО: не публикуйте первый ответ ИИ без редактуры. Добавьте собственные примеры, опыт и живую речь.\n\nЗАДАНИЕ: прогоните свою тему через промпт и поделитесь самой интересной идеей.", "plan": "Дать готовый промпт, входные данные и пример результата для 5 публикаций разных форматов.", "comm": "Попросить участниц протестировать промпт и поделиться одной идеей."}, {"d": "ПТ", "type": "Подкаст + созвон", "title": "Подкаст 01: Почему блог не растёт, даже если публикуешь регулярно", "text": "ПОДКАСТ № 1 🎧\n\nПочему блог не растёт, даже если ты регулярно публикуешь.\n\nСегодня разбираем:\n— почему количество публикаций не гарантирует рост;\n— как определить, для кого вы снимаете;\n— зачем каждому ролику нужна конкретная задача;\n— почему просмотры не всегда превращаются в подписки;\n— как выстроить контент вокруг потребностей аудитории.\n\nПрактика после прослушивания:\nПосмотрите на последние пять публикаций и определите, какую задачу решала каждая: привлекала внимание, знакомила с вами, давала пользу или продавала.\n\nИ напоминаю: сегодня в 19:00 встречаемся на клубном созвоне. Тема — аудит блога без розовых очков 💗", "plan": "Выпуск + короткий конспект. Созвон 19:00: аудит контента, вопросы, разбор 2–3 ситуаций участниц.", "comm": "В конце созвона зафиксировать личный фокус каждой на следующую неделю."}]}, {"title": "НЕДЕЛЯ 02 · КОНТЕНТ И УВЕРЕННОСТЬ", "days": [{"d": "ПН", "type": "План недели", "title": "От идеи до опубликованного Reels", "text": "План недели: выбираем одну главную тему, формулируем цель ролика, пишем хук, собираем три смысловых тезиса, снимаем и публикуем. Не усложняйте: один ролик — одна мысль. ЗАДАНИЕ: выберите тему и поставьте время съёмки в календарь.", "plan": "Недельный маршрут: выбрать тему, написать хук, снять, смонтировать, опубликовать, проанализировать.", "comm": "Попросить выбрать день и время для съёмки."}, {"d": "ВТ", "type": "Тренды и Reels", "title": "10 сильных хуков для первых 2 секунд", "text": "10 вариантов начала ролика:\n1. Вы тоже делаете эту ошибку?\n2. Вот почему у вас не получается…\n3. Перестаньте делать это, если хотите…\n4. Три вещи, которые я хотела бы знать раньше.\n5. Никто не говорит об этом в [ниша].\n6. Сохраните, чтобы не потерять.\n7. Разберём на реальном примере.\n8. Самый простой способ начать…\n9. Если вы [аудитория], посмотрите.\n10. Я проверила это на практике.\nЗАДАНИЕ: выберите два хука и адаптируйте под свою тему.", "plan": "Подборка конструкций хуков с примерами для экспертного, лайфстайл- и товарного блога.", "comm": "Мини-задание: переписать один скучный заголовок в 3 сильных хука."}, {"d": "СР", "type": "Польза + игра", "title": "Как перестать бояться камеры: 5 упражнений", "text": "Страх камеры уменьшается через практику, а не ожидание идеального момента. Попробуйте: 1) записать 30 секунд без публикации; 2) рассказать знакомую историю; 3) снять видео с одним тезисом; 4) смотреть в объектив, а не на себя; 5) повторить запись трижды и выбрать живой вариант. ИГРА: «Скажи это по-своему» — объясните сложный термин простыми словами.", "plan": "Пошаговая практика: голосовые заметки, съёмка без публикации, короткие дубли, тезисы вместо сценария, серия из 3 сторис.", "comm": "Игра «Скажи это по-своему»: одна тема — три подачи."}, {"d": "ЧТ", "type": "Нейронка и AI", "title": "ИИ-сценарист: пишем сценарий Reels", "text": "Промпт: «Ты — сценарист коротких вертикальных видео. Напиши сценарий Reels до 30 секунд для [аудитория] на тему [тема]. Структура: цепляющий хук, проблема, один полезный вывод, короткий призыв к действию. Пиши разговорно, без канцелярита и клише. Дай 3 варианта начала». Проверьте, чтобы сценарий звучал как вы.", "plan": "Дать шаблон промпта: аудитория, боль, обещание, хук, 3 тезиса, CTA. Показать пример до/после.", "comm": "Попросить принести тему, по которой ИИ соберёт сценарий."}, {"d": "ПТ", "type": "Подкаст + созвон", "title": "Подкаст 02: Как перестать бояться камеры", "text": "Подкаст № 2: как перестать бояться камеры и начать снимать. Обсудим страх оценки, привычку пересматривать себя, работу с голосом и простую систему тренировок. Практика: запишите видео-знакомство на 30 секунд. В 19:00 созвон — практика самопрезентации и разбор первых секунд роликов.", "plan": "Выпуск + упражнение на неделю. Созвон 19:00: практика самопрезентации и мягкий разбор первых секунд роликов.", "comm": "Каждая участница формулирует один ролик, который снимет до следующей встречи."}]}, {"title": "НЕДЕЛЯ 03 · ОХВАТЫ И СИСТЕМА", "days": [{"d": "ПН", "type": "План недели", "title": "Контент-спринт: три публикации без аврала", "text": "На этой неделе не пытаемся сделать всё. Выберите три публикации: одну на охват, одну на доверие и одну экспертную. Для каждой определите тему, формат и срок. ЗАДАНИЕ: внесите три публикации в календарь и оставьте запасной слот.", "plan": "Разложить контент на охватный, экспертный и личный. Дать таблицу планирования и временные блоки.", "comm": "Попросить выбрать три темы и поставить дедлайны."}, {"d": "ВТ", "type": "Тренды и Reels", "title": "Как адаптировать тренд под свою нишу", "text": "Тренд — это форма, а не готовая стратегия. Сначала определите, что именно работает: звук, монтаж, сюжет или фраза. Затем замените тему на свою, добавьте опыт и сделайте понятный вывод. Не используйте тренд только потому, что он популярен.", "plan": "Алгоритм: найти механику, определить эмоцию, заменить сюжет своей экспертностью, добавить узнаваемую деталь.", "comm": "Предложить участницам принести тренд и свою адаптацию."}, {"d": "СР", "type": "Польза + игра", "title": "Почему зритель пролистывает Reels", "text": "Зритель может уйти, если начало затянуто, мысль непонятна, картинка не меняется или обещание ролика не совпадает с содержанием. Проверьте: понятен ли смысл за первые секунды? Есть ли причина досмотреть? ИГРА «Перемотай или досмотри»: сравниваем первые кадры и выбираем сильнейший.", "plan": "Разобрать хук, темп, визуальную смену, ясность мысли, субтитры и финальный призыв.", "comm": "Интерактив «Перемотай или досмотри»: голосование по 3 сценариям первых секунд."}, {"d": "ЧТ", "type": "Нейронка и AI", "title": "ИИ-помощник для контент-плана на 30 дней", "text": "Промпт: «Составь контент-план на 30 дней для [ниша] и [аудитория]. Цели: охват, доверие и заявки. Раздели идеи на экспертные, личные, вовлекающие и продающие. Для каждой укажи тему, формат, цель и короткий хук. Избегай повторов и общих советов». Отредактируйте план под реальные возможности.", "plan": "Промпт для рубрикатора: 4 смысловые линии, 30 тем, разные форматы, баланс пользы и личного контента.", "comm": "Попросить сгенерировать 5 тем и выбрать одну для публикации."}, {"d": "ПТ", "type": "Подкаст + созвон", "title": "Подкаст 03: Reels, которые приводят подписчиков", "text": "Подкаст № 3: Reels, которые приводят подписчиков, а не только просмотры. Разберём связку ролик → интерес → профиль → подписка, роль позиционирования и призыва к действию. Практика: проверьте, отвечает ли профиль на вопрос «почему мне стоит остаться?». В 19:00 созвон — путь зрителя от просмотра до подписки.", "plan": "Выпуск + чек-лист анализа ролика. Созвон 19:00: разбираем путь зрителя от просмотра до подписки.", "comm": "Выбрать один показатель, который участница будет улучшать."}]}, {"title": "НЕДЕЛЯ 04 · ЛИЧНЫЙ БРЕНД И РОСТ", "days": [{"d": "ПН", "type": "План недели", "title": "Упаковка блога и точки роста", "text": "Финальная неделя месяца. Проверьте позиционирование, шапку профиля, закрепы и контентные рубрики. Выберите одну метрику, которую хотите улучшить в следующем месяце. ЗАДАНИЕ: сформулируйте одну главную цель на 30 дней.", "plan": "План: проверить шапку, закреплённые публикации, лид-магнит/предложение, контентные опоры и следующий шаг.", "comm": "Попросить выбрать одну точку роста для финального разбора."}, {"d": "ВТ", "type": "Тренды и Reels", "title": "Личные истории, которые усиливают доверие", "text": "Личная история в блоге — не исповедь ради охватов. Выберите опыт, который помогает аудитории: ошибка, решение, вывод, маленькая победа. Структура: что произошло → что вы почувствовали → что поняли → чем это полезно зрителю.", "plan": "Формулы историй: было/стало, ошибка/вывод, путь/урок, закулисье/ценность. Примеры сюжетов.", "comm": "Попросить набросать одну историю по формуле."}, {"d": "СР", "type": "Польза + игра", "title": "Упаковка профиля: что понятно за 5 секунд", "text": "Новый человек должен быстро понять: кто вы, кому помогаете, чем полезны и куда нажать дальше. Уберите расплывчатые формулировки, проверьте актуальность закрепов и ясность описания. ИГРА «Профиль за 5 секунд»: участники смотрят профиль и формулируют первое впечатление.", "plan": "Чек-лист аватара, имени, описания, закрепов, визуальной логики и понятного предложения.", "comm": "Игра «Профиль за 5 секунд»: участницы оценивают условные варианты упаковки."}, {"d": "ЧТ", "type": "Нейронка и AI", "title": "ИИ-редактор: улучшаем текст, сохраняя свой голос", "text": "Промпт: «Отредактируй текст ниже: убери повторы, сделай структуру яснее и усили начало. Сохрани мой стиль, интонацию и лексику. Не добавляй факты от себя и не превращай текст в рекламный шаблон. Сначала покажи исправленную версию, затем кратко перечисли изменения». Вставьте свой черновик.", "plan": "Промпт для редакторской правки: убрать воду, усилить начало, сохранить интонацию, добавить ясный CTA.", "comm": "Сравнить исходный и улучшенный текст, отметить, что нельзя отдавать ИИ."}, {"d": "ПТ", "type": "Подкаст + созвон", "title": "Подкаст 04: Как найти свою нишу и не копировать других", "text": "Подкаст № 4: как найти свою нишу и перестать копировать других. Поговорим о пересечении опыта, интересов и запросов аудитории, тестировании тем и формировании узнаваемого подхода. Практика: запишите три темы, о которых можете говорить долго и с пользой. В 19:00 созвон — итоги месяца и план следующих 30 дней.", "plan": "Выпуск + итоговый разбор месяца. Созвон 19:00: что сработало, что внедрили, план личного роста на следующие 30 дней.", "comm": "Собрать обратную связь и выбрать темы следующего месяца."}]}], "podcasts": [{"n": "01", "title": "Почему блог не растёт, даже если ты регулярно публикуешь", "desc": "Диагностика блога: позиционирование, аудитория, упаковка, удержание и призыв к действию.", "q": "Что именно мешает росту? Какие метрики смотреть? Как выбрать одну точку роста на неделю?"}, {"n": "02", "title": "Как перестать бояться камеры и начать снимать", "desc": "Страх оценки, перфекционизм, подготовка тезисов, тренировка речи и постепенная практика.", "q": "Как начать снимать без идеального света и сценария? Что делать, если не нравится свой голос?"}, {"n": "03", "title": "Reels, которые приводят подписчиков, а не только просмотры", "desc": "Связка хука, ценности, удержания, узнаваемости и следующего шага зрителя.", "q": "Почему вирусный ролик не всегда даёт подписки? Как связать ролик с темой блога?"}, {"n": "04", "title": "Как найти свою нишу и перестать копировать других", "desc": "Пересечение опыта, интересов, запросов аудитории и продукта; личная подача и контентные опоры.", "q": "Как сузить тему без ощущения ограничений? Как отличаться, оставаясь собой?"}], "calls": [{"week": "НЕДЕЛЯ 1", "title": "Аудит блога без розовых очков", "when": "19:00 · пятница", "desc": "Знакомство с целями участниц, экспресс-аудит упаковки и контента, выбор одной точки роста.", "prep": "Подготовить ссылку на блог и ответ: чего хочу достичь за 30 дней."}, {"week": "НЕДЕЛЯ 2", "title": "Камера, голос и уверенная подача", "when": "19:00 · пятница", "desc": "Практика самопрезентации, работа с первыми фразами, разбор барьеров и короткие выступления.", "prep": "Подготовить тему ролика на 30–45 секунд."}, {"week": "НЕДЕЛЯ 3", "title": "Разбор Reels и контентная система", "when": "19:00 · пятница", "desc": "Разбор первых секунд, удержания и CTA; как собрать повторяемый процесс производства контента.", "prep": "Принести один опубликованный ролик или сценарий."}, {"week": "НЕДЕЛЯ 4", "title": "Итоги месяца и план следующих 30 дней", "when": "19:00 · пятница", "desc": "Рефлексия, результаты, выводы, обратная связь по клубу и постановка следующей цели.", "prep": "Подготовить 1 победу, 1 сложность и 1 цель на следующий месяц."}], "games": [{"when": "СРЕДА · НЕДЕЛЯ 1", "title": "Угадай, что не так с блогом", "desc": "Показать условный профиль с 3–4 намеренно допущенными ошибками. Участницы ищут проблемы и предлагают исправления.", "result": "Итог: общий чек-лист ошибок упаковки."}, {"when": "СРЕДА · НЕДЕЛЯ 2", "title": "Скажи это по-своему", "desc": "Дать одну тему и три разных подачи: экспертную, личную и провокационную. Участницы придумывают свою версию.", "result": "Итог: банк сильных заходов для Reels."}, {"when": "СРЕДА · НЕДЕЛЯ 3", "title": "Перемотай или досмотри", "desc": "Показать три варианта первых 2 секунд ролика. Участницы голосуют, какой вариант удерживает внимание, и объясняют почему.", "result": "Итог: правила сильного хука."}, {"when": "СРЕДА · НЕДЕЛЯ 4", "title": "Профиль за 5 секунд", "desc": "Показать несколько учебных вариантов профиля. Участницы отвечают: кто автор, для кого блог и зачем подписываться.", "result": "Итог: чек-лист быстрой упаковки."}], "messages": [{"k": "☀️ Утро", "t": "Доброе утро, START BLOG! 💗\n\nНачинаем новый день и не ждём вдохновения — создаём его сами. Сегодня разбираем тему дня, забираем идеи и внедряем хотя бы одну в свой блог.\n\nЗаглядывайте в ветку, делитесь мыслями и не бойтесь экспериментировать. Поехали! ✨"}, {"k": "🌙 Вечер", "t": "На сегодня всё, мои хорошие! 💗\n\nПусть даже сегодня вы сделали один маленький шаг — это уже движение вперёд. Сохраните полезное, выберите одну идею для внедрения и разрешите себе отдыхать.\n\nДо завтра! Ваш блог сам себя не раскрутит, но мы ему поможем 😎"}, {"k": "📣 Пятница · созвон", "t": "Сегодня пятница, а значит, встречаемся в START BLOG! 💗\n\nВ 19:00 — наш созвон. Приносите вопросы, идеи и свои блоги: будем разбирать, обсуждать и искать решения вместе.\n\nДо встречи!"}, {"k": "🎉 Приветствие нового участника", "t": "Добро пожаловать в START BLOG 2.0! 💗 Здесь мы растим блоги без хаоса: делимся идеями, тестируем инструменты, разбираем контент и поддерживаем друг друга. Расскажи немного о себе: какая у тебя тема блога и какая главная цель на ближайший месяц?"}, {"k": "📣 Напоминание о созвоне", "t": "Напоминаем: сегодня в 19:00 встречаемся на клубном созвоне! 🎙 Подготовьте вопросы, ссылки на блоги и чашку чего-нибудь вкусного. Будем разбирать, обсуждать и заряжаться на новые результаты."}, {"k": "💌 Завершение недели в пятницу", "t": "Наша рабочая неделя в клубе подходит к концу! 💗 Поделитесь одним достижением, одним инсайтом и одной задачей, которую переносите на следующую неделю. Спасибо, что были активны. В выходные отдыхаем и наполняемся идеями!"}]};
+const NAV=[["calendar","🗓","Календарь"],["podcasts","🎧","Подкасты"],["games","🎮","Игры"],["calls","🎥","Созвоны"],["comms","💬","Сообщения"],["rules","✨","Ритм клуба"]];
+let current=(location.hash||"#calendar").slice(1);if(!NAV.some(n=>n[0]===current))current="calendar";
+let weekFilter="all";
+let done=[];try{done=JSON.parse(localStorage.getItem("sb2_done")||"[]")}catch(e){}
+const save=()=>{try{localStorage.setItem("sb2_done",JSON.stringify(done))}catch(e){}};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const COPY={};let copyN=0;const reg=t=>{const k="c"+(copyN++);COPY[k]=t;return k};
+function copyText(k,btn){const t=COPY[k];const ok=()=>{const o=btn.textContent;btn.textContent="Скопировано ✓";btn.classList.add("ok");setTimeout(()=>{btn.textContent=o;btn.classList.remove("ok")},1600)};
+ if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(ok,()=>fallback(t)&&ok())}else{fallback(t);ok()}}
+function fallback(t){const a=document.createElement("textarea");a.value=t;a.style.position="fixed";a.style.opacity="0";document.body.appendChild(a);a.select();try{document.execCommand("copy")}catch(e){}a.remove();return true}
+function go(id){current=id;history.replaceState(null,"","#"+id);render();window.scrollTo({top:0,behavior:"smooth"})}
+function renderNav(){const h=NAV.map(([id,ic,n])=>`<button class="${id===current?"active":""}" onclick="go('${id}')"><span class="ic">${ic}</span>${n}</button>`).join("");document.getElementById("nav").innerHTML=h;document.getElementById("mnav").innerHTML=NAV.map(([id,ic,n])=>`<button class="${id===current?"active":""}" onclick="go('${id}')">${ic} ${n}</button>`).join("")}
+function toggle(id){done=done.includes(id)?done.filter(x=>x!==id):[...done,id];save();render();if(document.getElementById("overlay").classList.contains("show")){const [w,d]=id.split("-").map(Number);showPost(w,d)}}
+function head(k,t,s,extra=""){return `<div class="sectionhead"><div><div class="kicker">${k}</div><h2>${t}</h2><div class="muted">${s}</div></div>${extra}</div>`}
+function calendar(){
+ const n=done.length,p=Math.round(n/20*100);
+ const chips=`<div class="chips">${["all","1","2","3","4"].map(x=>`<button class="${weekFilter===x?"active":""}" onclick="weekFilter='${x}';render()">${x==="all"?"Все недели":"Неделя "+x}</button>`).join("")}</div>`;
+ let h=head("EDITORIAL PLAN","Контент-календарь","Первый месяц · 4 недели · будние дни",chips);
+ h+=`<div class="progress"><div class="row"><span>Выполнено: ${n} из 20</span><span>${p}%</span></div><div class="bar"><i style="width:${p}%"></i></div></div>`;
+ DATA.weeks.forEach((w,wi)=>{if(weekFilter!=="all"&&weekFilter!==String(wi+1))return;
+  const c=w.days.filter((d,di)=>done.includes(wi+"-"+di)).length;
+  h+=`<div class="week"><div class="weekhead"><h3>${esc(w.title)}</h3><span class="cnt">${c}/5 ГОТОВО</span></div><div class="days">`;
+  w.days.forEach((d,di)=>{const id=wi+"-"+di,on=done.includes(id);
+   h+=`<div class="day ${on?"done":""}"><div class="dtop"><span class="dname">${d.d}</span><input class="check" type="checkbox" aria-label="Отметить выполнение" ${on?"checked":""} onchange="toggle('${id}')"></div><div class="dtype">${esc(d.type)}</div><div class="dtitle">${esc(d.title)}</div><button class="open" onclick="showPost(${wi},${di})">Открыть текст →</button></div>`});
+  h+=`</div></div>`});
+ return h}
+function showPost(wi,di){const d=DATA.weeks[wi].days[di],id=wi+"-"+di,on=done.includes(id),k=reg(d.text);
+ document.getElementById("sheet").innerHTML=`<button class="close" onclick="closePost()" aria-label="Закрыть">×</button><div class="kicker">НЕДЕЛЯ ${wi+1} · ${d.d} · ${esc(d.type).toUpperCase()}</div><h2>${esc(d.title)}</h2><div class="body">${esc(d.text)}</div><div class="meta"><b>План материала:</b> ${esc(d.plan)}<br><b>Коммуникация:</b> ${esc(d.comm)}</div><div class="actions"><button class="copy" onclick="copyText('${k}',this)">Скопировать публикацию</button><button class="mark ${on?"on":""}" onclick="toggle('${id}')">${on?"✓ Опубликовано":"Отметить как опубликовано"}</button></div>`;
+ document.getElementById("overlay").classList.add("show");document.body.style.overflow="hidden"}
+function closePost(){document.getElementById("overlay").classList.remove("show");document.body.style.overflow=""}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closePost()});
+function podcasts(){let h=head("AUDIO EDITION","Подкаст-студия","Четыре выпуска первого месяца. Подкаст выходит в пятницу, созвон дополняет тему.");
+ h+=`<div class="cards">${DATA.podcasts.map(p=>{const k=reg("Подкаст "+p.n+": "+p.title);return `<article class="card"><span class="pill">EP ${p.n}</span><h3>${esc(p.title)}</h3><p>${esc(p.desc)}</p><p><b>Вопросы для обсуждения:</b> ${esc(p.q)}</p><button class="copy" onclick="copyText('${k}',this)">Скопировать тему</button></article>`}).join("")}</div>`;return h}
+function games(){let h=head("COMMUNITY ENERGY","Игровая комната","Каждую среду — интерактив для участников");
+ h+=`<div class="cards">${DATA.games.map(g=>`<article class="card"><span class="pill">${esc(g.when)}</span><h3>🎮 ${esc(g.title)}</h3><p>${esc(g.desc)}</p><p><b>Результат:</b> ${esc(g.result)}</p></article>`).join("")}</div>`;return h}
+function calls(){let h=head("LIVE","Комната созвонов","Еженедельная встреча клуба START BLOG 2.0");
+ h+=`<div class="callhero"><div class="kicker" style="color:#fff">КАЖДУЮ ПЯТНИЦУ</div><b>19:00</b>Разборы блогов, вопросы участников, мини-мастер-классы и практика</div>`;
+ h+=`<div class="cards">${DATA.calls.map((c,i)=>`<article class="card"><span class="pill">СОЗВОН ${i+1} · ${esc(c.week)}</span><h3>${esc(c.title)}</h3><p class="muted">${esc(c.when)}</p><p>${esc(c.desc)}</p><p><b>Подготовка:</b> ${esc(c.prep)}</p></article>`).join("")}</div>`;return h}
+function comms(){let h=head("DAILY TOUCHPOINTS","Готовые сообщения","Тексты для ежедневного общения с клубом. Скопируйте и вставьте в чат.");
+ h+=`<div class="msgs">${DATA.messages.map(m=>{const k=reg(m.t);return `<article class="msg"><h4>${esc(m.k)}</h4><div class="txt">${esc(m.t)}</div><button class="copy" onclick="copyText('${k}',this)">Скопировать сообщение</button></article>`}).join("")}</div>`;return h}
+function rules(){const r=[["ПОНЕДЕЛЬНИК","План недели и расписание"],["ВТОРНИК","Тренды и идеи Reels"],["СРЕДА","Полезное + игра"],["ЧЕТВЕРГ","Нейронка и AI-инструменты"],["ПЯТНИЦА","Подкаст или UGC + созвон в 19:00"],["СУББОТА И ВОСКРЕСЕНЬЕ","Выходные"]];
+ let h=head("HOW WE RUN THE CLUB","Ритм клуба","Постоянная структура недели");
+ h+=`<div class="rhythm">${r.map(([a,b],i)=>`<article class="rcard ${i===5?"off":""}"><div class="kicker">${a}</div><h3>${b}</h3></article>`).join("")}</div>`;
+ h+=`<div class="note"><h4>Каждый рабочий день</h4>Утром — приветствие, настрой и анонс дня. Днём — основная публикация в тематической ветке. Вечером — вопрос участникам, обсуждение, прощание и небольшой итог.<h4>Каждую неделю</h4>Среда — игра или интерактив. Пятница — выпуск подкаста или материал UGC и созвон в 19:00. Подкасты и UGC чередуются по пятницам.<h4>Выходные</h4>Публикации выходят в будние дни. Суббота и воскресенье — без обязательного контента, заданий и сообщений от организаторов.<h4>Контроль качества</h4>У каждой публикации должны быть: понятный заголовок, конкретная польза, пример или инструкция, призыв к действию и ответственный. Не публикуем материал только ради заполнения ветки.</div>`;return h}
+function render(){renderNav();document.getElementById("app").innerHTML=({calendar,podcasts,games,calls,comms,rules})[current]()}
+render();
+</script>
+</body>
+</html>
